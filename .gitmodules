@@ -1,0 +1,6 @@
+[submodule "HoloLensForCV"]
+	path = HoloLensForCV
+	url = git@github.com:doughtmw/HoloLensForCV.git
+[submodule "NuGet-Package-Creation"]
+	path = NuGet-Package-Creation
+	url = git@github.com:doughtmw/NuGet-Package-Creation.git

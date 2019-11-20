@@ -5,7 +5,7 @@ Incorporates:
 - [HoloLensForCV](https://github.com/microsoft/HoloLensForCV) sample from Microsoft 
 - [ArUco marker detection](https://docs.opencv.org/4.1.1/d5/dae/tutorial_aruco_detection.html) in OpenCV
 
-![aruco tracking](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/aruco-tracking.jpg)
+![aruco tracking](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/single-aruco-marker.jpg)
 
 ## Requirements
 - Tested with [Unity 2018.4 LTS](https://unity3d.com/unity/qa/lts-releases
@@ -22,7 +22,8 @@ Incorporates:
 5. Open VS solution, build then deploy to device
 6. When looking at an aruco marker **from the correct ArUco dictionary** (this sample uses the 6x6 (50, 100, 250, 500) dictionary by default), a virtual cube, which is scaled to the size of the ArUco marker, should appear on top of the marker. 
 
-![aruco tracking](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/single-aruco-marker.jpg)
+![aruco tracking multi](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/aruco-tracking.jpg)
+
 
 ## Using other research mode sensor streams
 To enable the use of [HoloLens research mode streams](https://docs.microsoft.com/en-us/windows/mixed-reality/research-mode) in Unity, additional permissions are required for the project. Navigate to Unity project build folder and modify the Package.appxmanifest file to include: 

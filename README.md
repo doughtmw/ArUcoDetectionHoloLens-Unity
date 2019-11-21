@@ -24,6 +24,7 @@ Incorporates:
 
 ![aruco tracking view through pv camera](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/single-aruco-marker-pv-cam.jpg)
 
+Figure is taken through the Microsoft Mixed Reality Capture interface, leading to a discrepancy in the position of the virtual cube. The [first figure](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/single-aruco-marker.jpg) was recorded directly through the HoloLens optical display and is a better representation of how tracking looks in the point-of-view of a user. 
 
 ## Using other research mode sensor streams
 To enable the use of [HoloLens research mode streams](https://docs.microsoft.com/en-us/windows/mixed-reality/research-mode) in Unity, additional permissions are required for the project. Navigate to Unity project build folder and modify the Package.appxmanifest file to include: 

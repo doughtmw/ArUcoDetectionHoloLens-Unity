@@ -22,7 +22,7 @@ Incorporates:
 5. Open VS solution, build then deploy to device
 6. When looking at an aruco marker **from the correct ArUco dictionary**: this sample uses the ```6x6 (50, 100, 250, 500) dictionary``` by default, a virtual cube, which is scaled to the size of the ArUco marker, should appear on top of the marker
 
-![aruco tracking multi](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/aruco-tracking.jpg)
+![aruco tracking view through pv camera](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/single-aruco-marker-pv-cam.jpg)
 
 
 ## Using other research mode sensor streams

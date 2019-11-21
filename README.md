@@ -15,12 +15,12 @@ Incorporates:
 - Printed (or on screen) ArUco markers. Markers can be readily generated using the following [tool](http://chev.me/arucogen/)
 
 ## ArUco Detection Sample
-1. Open HoloLensForCV sample in VS2017 and install included OpenCV nuget package to HoloLensForCV project
+1. Open HoloLensForCV sample in VS2017 and install included [OpenCV.UWP.411](https://github.com/doughtmw/NuGet-Package-Creation/blob/36e477320669a041c60d5517c5068d43309c06b3/OpenCV.UWP.411.0.0.nupkg) NuGet package to HoloLensForCV project
 2. Build the HoloLensForCV project (x86, Debug or Release) 
 3. Copy all output files from HoloLensForCV output path (dlls and HoloLensForCV.winmd) to the Assets->Plugins->x86 folder of the ArUcoDetectionHoloLensUnity project
-4. Open ArUcoDetectionHoloLensUnity Unity project and build using IL2CPP, allow unsafe code under Unity Player Settings->Other Settings
+4. Open ArUcoDetectionHoloLensUnity Unity project and build using IL2CPP, ensure that unsafe code is allowed under Unity Player Settings->Other Settings
 5. Open VS solution, build then deploy to device
-6. When looking at an aruco marker **from the correct ArUco dictionary** (this sample uses the 6x6 (50, 100, 250, 500) dictionary by default), a virtual cube, which is scaled to the size of the ArUco marker, should appear on top of the marker. 
+6. When looking at an aruco marker **from the correct ArUco dictionary**: this sample uses the ```6x6 (50, 100, 250, 500) dictionary``` by default, a virtual cube, which is scaled to the size of the ArUco marker, should appear on top of the marker
 
 ![aruco tracking multi](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/aruco-tracking.jpg)
 

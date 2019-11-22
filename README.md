@@ -2,7 +2,7 @@
 ArUco marker tracking made available for use in Unity through [IL2CPP Windows Runtime support](https://docs.unity3d.com/2018.4/Documentation/Manual/IL2CPP-WindowsRuntimeSupport.html). 
 
 Incorporates:
-- [HoloLensForCV](https://github.com/microsoft/HoloLensForCV) sample from Microsoft 
+- [HoloLensForCV](https://github.com/microsoft/HoloLensForCV) sample from Microsoft, at personal [branch](https://github.com/doughtmw/HoloLensForCV/commit/000ba0259b462afdd0392e0a94d8e976190342c1)
 - [ArUco marker detection](https://docs.opencv.org/4.1.1/d5/dae/tutorial_aruco_detection.html) in OpenCV
 
 ![aruco tracking](https://github.com/doughtmw/ArUcoDetectionHoloLens-Unity/blob/master/single-aruco-marker.jpg)

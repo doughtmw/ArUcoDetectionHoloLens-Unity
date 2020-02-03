@@ -40,6 +40,7 @@ namespace ArUcoDetectionHoloLensUnity
         // Params for aruco detection
         // Marker size in meters: 0.08 cm
         public float markerSize;
+        public float modelScale;
 
         /// <summary>
         /// Game object for to use for marker instantiation
@@ -54,13 +55,13 @@ namespace ArUcoDetectionHoloLensUnity
         /// <summary>
         /// Cached materials for applying to game objects.
         /// </summary>
-        private Material _pvMaterial;
+        //private Material _pvMaterial;
 
         /// </summary>
         /// Textures created from input byte arrays.
         /// </summary>
         // PV
-        private Texture2D _pvTexture;
+        //private Texture2D _pvTexture;
 
         /// <summary>
         /// List of prefab instances of detected aruco markers.
@@ -83,7 +84,7 @@ namespace ArUcoDetectionHoloLensUnity
         /// <summary>
         /// ArUco marker tracker winRT class
         /// </summary>
-        private ArUcoMarkerTracker _arUcoMarkerTracker;
+        //private ArUcoMarkerTracker _arUcoMarkerTracker;
 
         /// <summary>
         /// Coordinate system reference for Unity to WinRt 
@@ -104,7 +105,7 @@ namespace ArUcoDetectionHoloLensUnity
             InitializeHandler();
 
             // Get the material components from quad game objects.
-            _pvMaterial = pvGo.GetComponent<MeshRenderer>().material;
+            //_pvMaterial = pvGo.GetComponent<MeshRenderer>().material;
 
             // Start the media frame source groups.
             await StartHoloLensMediaFrameSourceGroups();
@@ -175,10 +176,15 @@ namespace ArUcoDetectionHoloLensUnity
             }
 
             // Initialize the aruco marker detector with parameters
-            _arUcoMarkerTracker = new ArUcoMarkerTracker(
-                markerSize,
-                (int)arUcoDictionaryName,
+            await _pvMediaFrameSourceGroup.StartArUcoMarkerTrackerAsync(
+                markerSize, 
+                (int)arUcoDictionaryName, 
                 _unityCoordinateSystem);
+
+            //_arUcoMarkerTracker = new ArUcoMarkerTracker(
+            //    markerSize,
+            //    (int)arUcoDictionaryName,
+            //    _unityCoordinateSystem);
 #endif
         }
 
@@ -205,18 +211,20 @@ namespace ArUcoDetectionHoloLensUnity
 
             // Get latest sensor frames
             // Photo video
-            SensorFrame latestPvCameraFrame =
-                _pvMediaFrameSourceGroup.GetLatestSensorFrame(
-                _sensorType);
+            //SensorFrame latestPvCameraFrame =
+            //    _pvMediaFrameSourceGroup.GetLatestSensorFrame(
+            //    _sensorType);
 
-            if (latestPvCameraFrame == null)
-                return;
+            //if (latestPvCameraFrame == null)
+            //    return;
 
             // Detect ArUco markers in current frame
             // https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#void%20Rodrigues(InputArray%20src,%20OutputArray%20dst,%20OutputArray%20jacobian)
-            IList<DetectedArUcoMarker> detectedArUcoMarkers = new List<DetectedArUcoMarker>();
-            detectedArUcoMarkers = 
-                _arUcoMarkerTracker.DetectArUcoMarkersInFrame(latestPvCameraFrame);
+            IList<DetectedArUcoMarker> detectedArUcoMarkers =
+                _pvMediaFrameSourceGroup.DetectArUcoMarkers(_sensorType);
+
+            //detectedArUcoMarkers = 
+            //    _arUcoMarkerTracker.DetectArUcoMarkersInFrame(latestPvCameraFrame);
 
             // If we detect a marker, display
             if (detectedArUcoMarkers.Count != 0)
@@ -240,32 +248,36 @@ namespace ArUcoDetectionHoloLensUnity
                         CvUtils.GetQuatFromMatrix(transformUnityWorld)) as GameObject;
 
                     // Scale the game object to the size of the markers
-                    thisGo.transform.localScale = new Vector3(markerSize, markerSize, markerSize);
+                    thisGo.transform.localScale = new Vector3(modelScale, modelScale, modelScale);
                     _markerGOs.Add(thisGo);
                 }
             }
+            
+            // Remove viewing of frame for now. Getting memory leaks
+            // from passing the SensorFrame class object across the 
+            // WinRT ABI... 
 
-            // Convert the frame to be unity viewable
-            var pvFrame = SoftwareBitmap.Convert(
-                latestPvCameraFrame.SoftwareBitmap,
-                BitmapPixelFormat.Bgra8,
-                BitmapAlphaMode.Ignore);
+            //// Convert the frame to be unity viewable
+            //var pvFrame = SoftwareBitmap.Convert(
+            //    latestPvCameraFrame.SoftwareBitmap,
+            //    BitmapPixelFormat.Bgra8,
+            //    BitmapAlphaMode.Ignore);
 
-            // Display the incoming pv frames as a texture.
-            // Set texture to the desired renderer
-            Destroy(_pvTexture);
-            _pvTexture = new Texture2D(
-                pvFrame.PixelWidth,
-                pvFrame.PixelHeight,
-                TextureFormat.BGRA32, false);
+            //// Display the incoming pv frames as a texture.
+            //// Set texture to the desired renderer
+            //Destroy(_pvTexture);
+            //_pvTexture = new Texture2D(
+            //    pvFrame.PixelWidth,
+            //    pvFrame.PixelHeight,
+            //    TextureFormat.BGRA32, false);
 
-            // Get byte array, update unity material with texture (RGBA)
-            byte* inBytesPV = GetByteArrayFromSoftwareBitmap(pvFrame);
-            _pvTexture.LoadRawTextureData((IntPtr)inBytesPV, pvFrame.PixelWidth * pvFrame.PixelHeight * 4);
-            _pvTexture.Apply();
-            _pvMaterial.mainTexture = _pvTexture;
+            //// Get byte array, update unity material with texture (RGBA)
+            //byte* inBytesPV = GetByteArrayFromSoftwareBitmap(pvFrame);
+            //_pvTexture.LoadRawTextureData((IntPtr)inBytesPV, pvFrame.PixelWidth * pvFrame.PixelHeight * 4);
+            //_pvTexture.Apply();
+            //_pvMaterial.mainTexture = _pvTexture;
 
-            myText.text = "Began streaming sensor frames. Double tap to end streaming.";
+            //myText.text = "Began streaming sensor frames. Double tap to end streaming.";
 #endif
         }
 

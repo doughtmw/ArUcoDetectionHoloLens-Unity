@@ -40,7 +40,6 @@ namespace ArUcoDetectionHoloLensUnity
         // Params for aruco detection
         // Marker size in meters: 0.08 cm
         public float markerSize;
-        public float modelScale;
 
         /// <summary>
         /// Game object for to use for marker instantiation
@@ -110,8 +109,28 @@ namespace ArUcoDetectionHoloLensUnity
             // Start the media frame source groups.
             await StartHoloLensMediaFrameSourceGroups();
 
+            // Wait for a few seconds prior to making calls to Update 
+            // HoloLens media frame source groups.
+            StartCoroutine(DelayCoroutine());
+
             // Initialize list of marker game objects
             _markerGOs = new List<GameObject>();
+        }
+
+        /// <summary>
+        /// https://docs.unity3d.com/ScriptReference/WaitForSeconds.html
+        /// Wait for some seconds for media frame source groups to complete
+        /// their initialization.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator DelayCoroutine()
+        {
+            Debug.Log("Started Coroutine at timestamp : " + Time.time);
+
+            // YieldInstruction that waits for 2 seconds.
+            yield return new WaitForSeconds(2);
+
+            Debug.Log("Finished Coroutine at timestamp : " + Time.time);
         }
 
         // Update is called once per frame
@@ -248,7 +267,7 @@ namespace ArUcoDetectionHoloLensUnity
                         CvUtils.GetQuatFromMatrix(transformUnityWorld)) as GameObject;
 
                     // Scale the game object to the size of the markers
-                    thisGo.transform.localScale = new Vector3(modelScale, modelScale, modelScale);
+                    thisGo.transform.localScale = new Vector3(markerSize, markerSize, markerSize);
                     _markerGOs.Add(thisGo);
                 }
             }

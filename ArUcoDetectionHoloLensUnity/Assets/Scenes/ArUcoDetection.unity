@@ -196,8 +196,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 4
@@ -259,8 +257,8 @@ MonoBehaviour:
   sensorTypePv: 0
   arUcoDictionaryName: 8
   markerSize: 0.08
-  modelScale: 0.0015
-  markerGo: {fileID: 100279132540419467, guid: b9bc19d5b46243b479928396686ae1a3, type: 3}
+  markerGo: {fileID: 6938460688606143788, guid: 2e5d73686abb4b440940c1d00e105576,
+    type: 3}
   pvGo: {fileID: 1810004528}
 --- !u!1 &834886952
 GameObject:

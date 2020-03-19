@@ -73,6 +73,7 @@ namespace ArUcoDetectionHoloLensUnity
         // run in Unity editor.
         private SensorFrameStreamer _sensorFrameStreamerPv;
         private SpatialPerception _spatialPerception;
+        private MediaFrameSourceGroupType _mediaFrameSourceGroup;
 
         /// <summary>
         /// Media frame source groups for each sensor stream.
@@ -165,8 +166,15 @@ namespace ArUcoDetectionHoloLensUnity
             // Enable media frame source groups
             // PV
             Debug.Log("HoloLensForCVUnity.ArUcoDetection.StartHoloLensMediaFrameSourceGroup: Setting up the media frame source group");
+
+            // Check if using research mode sensors
+            if (sensorTypePv == CvUtils.SensorTypeUnity.PhotoVideo)
+                _mediaFrameSourceGroup = MediaFrameSourceGroupType.PhotoVideoCamera;
+            else
+                _mediaFrameSourceGroup = MediaFrameSourceGroupType.HoloLensResearchModeSensors;
+
             _pvMediaFrameSourceGroup = new MediaFrameSourceGroup(
-                MediaFrameSourceGroupType.PhotoVideoCamera,
+                _mediaFrameSourceGroup,
                 _spatialPerception,
                 _sensorFrameStreamerPv);
             _pvMediaFrameSourceGroup.Enable(_sensorType);
@@ -276,7 +284,7 @@ namespace ArUcoDetectionHoloLensUnity
             // from passing the SensorFrame class object across the 
             // WinRT ABI... 
 
-            //// Convert the frame to be unity viewable
+            // Convert the frame to be unity viewable
             //var pvFrame = SoftwareBitmap.Convert(
             //    latestPvCameraFrame.SoftwareBitmap,
             //    BitmapPixelFormat.Bgra8,
@@ -296,7 +304,7 @@ namespace ArUcoDetectionHoloLensUnity
             //_pvTexture.Apply();
             //_pvMaterial.mainTexture = _pvTexture;
 
-            //myText.text = "Began streaming sensor frames. Double tap to end streaming.";
+            myText.text = "Began streaming sensor frames. Double tap to end streaming.";
 #endif
         }
 

@@ -34,6 +34,9 @@ namespace ArUcoDetectionHoloLensUnity
     {
         public Text myText;
 
+        public CvUtils.DeviceTypeUnity deviceType;
+
+        // Note: HL2 only has PV camera function currently.
         public CvUtils.SensorTypeUnity sensorTypePv;
         public CvUtils.ArUcoDictionaryName arUcoDictionaryName;
 
@@ -73,6 +76,7 @@ namespace ArUcoDetectionHoloLensUnity
         // run in Unity editor.
         private SensorFrameStreamer _sensorFrameStreamerPv;
         private SpatialPerception _spatialPerception;
+        private HoloLensForCV.DeviceType _deviceType;
         private MediaFrameSourceGroupType _mediaFrameSourceGroup;
 
         /// <summary>
@@ -173,9 +177,12 @@ namespace ArUcoDetectionHoloLensUnity
             else
                 _mediaFrameSourceGroup = MediaFrameSourceGroupType.HoloLensResearchModeSensors;
 
+            // Cast device type 
+            _deviceType = (HoloLensForCV.DeviceType)deviceType;
             _pvMediaFrameSourceGroup = new MediaFrameSourceGroup(
                 _mediaFrameSourceGroup,
                 _spatialPerception,
+                _deviceType,
                 _sensorFrameStreamerPv);
             _pvMediaFrameSourceGroup.Enable(_sensorType);
 

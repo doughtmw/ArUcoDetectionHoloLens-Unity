@@ -6,34 +6,41 @@ namespace ArUcoDetectionHoloLensUnity
 {
     public abstract class CvUtils
     {
-        // https://docs.opencv.org/trunk/dc/df7/dictionary_8hpp.html
-        public enum ArUcoDictionaryName { 
-              DICT_4X4_50 = 0, 
-              DICT_4X4_100, 
-              DICT_4X4_250, 
-              DICT_4X4_1000, 
-              DICT_5X5_50, 
-              DICT_5X5_100, 
-              DICT_5X5_250, 
-              DICT_5X5_1000, 
-              DICT_6X6_50, 
-              DICT_6X6_100, 
-              DICT_6X6_250, 
-              DICT_6X6_1000, 
-              DICT_7X7_50, 
-              DICT_7X7_100, 
-              DICT_7X7_250, 
-              DICT_7X7_1000, 
-              DICT_ARUCO_ORIGINAL, 
-              DICT_APRILTAG_16h5, 
-              DICT_APRILTAG_25h9, 
-              DICT_APRILTAG_36h10, 
-              DICT_APRILTAG_36h11
-    }
+        // Enum for selection of device type
+        public enum DeviceTypeUnity
+        {
+            HL1 = 0,
+            HL2 = 1
+        }
 
-    // Sensor type enum for selection
-    // of media frame source group.
-    public enum SensorTypeUnity
+        // https://docs.opencv.org/trunk/dc/df7/dictionary_8hpp.html
+        public enum ArUcoDictionaryName {
+            DICT_4X4_50 = 0,
+            DICT_4X4_100,
+            DICT_4X4_250,
+            DICT_4X4_1000,
+            DICT_5X5_50,
+            DICT_5X5_100,
+            DICT_5X5_250,
+            DICT_5X5_1000,
+            DICT_6X6_50,
+            DICT_6X6_100,
+            DICT_6X6_250,
+            DICT_6X6_1000,
+            DICT_7X7_50,
+            DICT_7X7_100,
+            DICT_7X7_250,
+            DICT_7X7_1000,
+            DICT_ARUCO_ORIGINAL,
+            DICT_APRILTAG_16h5,
+            DICT_APRILTAG_25h9,
+            DICT_APRILTAG_36h10,
+            DICT_APRILTAG_36h11
+        }
+
+        // Sensor type enum for selection
+        // of media frame source group.
+        public enum SensorTypeUnity
         {
             Undefined = -1,
             PhotoVideo = 0,

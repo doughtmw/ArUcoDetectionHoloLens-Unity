@@ -4,3 +4,6 @@
 [submodule "NuGet-Package-Creation"]
 	path = NuGet-Package-Creation
 	url = git@github.com:doughtmw/NuGet-Package-Creation.git
+[submodule "HoloLensCamCalib"]
+	path = HoloLensCamCalib
+	url = https://github.com/doughtmw/HoloLensCamCalib.git

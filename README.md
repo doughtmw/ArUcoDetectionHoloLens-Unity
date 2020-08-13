@@ -15,7 +15,11 @@ Incorporates:
 - Printed (or on screen) ArUco markers. Markers can be readily generated using the following [tool](http://chev.me/arucogen/)
 
 ## ArUco Detection Sample
-1. Copy precompiled dlls and HoloLensForCV.winmd file from the **Prebuilt->x86/ARM** folder to the **Assets->Plugins->x86/ARM** folder. Due to the naming convention of dlls and winmd files, only one configuration (x86 OR ARM) can be run in Unity at a time.
+1. Git clone repo. From the main project directory, clone submodules with: 
+```
+git submodule update --init
+``` 
+2. Copy precompiled dlls and HoloLensForCV.winmd file from the **Prebuilt->x86/ARM** folder to the **Assets->Plugins->x86/ARM** folder. Due to the naming convention of dlls and winmd files, only one configuration (x86 OR ARM) can be run in Unity at a time.
 
 *Optional: build project from source*
 - Open HoloLensForCV sample in VS2017/VS2019 and install the `OpenCV.HoloLens.3411` NuGet package to HoloLensForCV project. In Nuget package manager console type:
@@ -25,9 +29,9 @@ Install-Package ..\OpenCV.HoloLens.3411.0.0.nupkg -ProjectName HoloLensForCV
 -  Build the HoloLensForCV project (x86 OR ARM, Debug or Release) 
 - Copy all output files from HoloLensForCV output path (dlls and HoloLensForCV.winmd) to the Assets->Plugins->x86/ARM folder of the ArUcoDetectionHoloLensUnity project
 
-2. Open ArUcoDetectionHoloLensUnity Unity project and build using IL2CPP, ensure that unsafe code is allowed under Unity Player Settings->Other Settings
-3. Open VS solution, build then deploy to device
-4. When looking at an aruco marker **from the correct ArUco dictionary**: this sample uses the ```6x6 (50, 100, 250, 500) dictionary``` by default, a virtual cube, which is scaled to the size of the ArUco marker, should appear on top of the marker
+3. Open ArUcoDetectionHoloLensUnity Unity project and build using IL2CPP, ensure that unsafe code is allowed under Unity Player Settings->Other Settings
+4. Open VS solution, build then deploy to device
+5. When looking at an aruco marker **from the correct ArUco dictionary**: this sample uses the ```6x6 (50, 100, 250, 500) dictionary``` by default, a virtual cube, which is scaled to the size of the ArUco marker, should appear on top of the marker
 
 ## Using other research mode sensor streams - HoloLens 1 only...
 To enable the use of [HoloLens research mode streams](https://docs.microsoft.com/en-us/windows/mixed-reality/research-mode) in Unity, additional permissions are required for the project. Navigate to Unity project build folder and modify the Package.appxmanifest file to include: 

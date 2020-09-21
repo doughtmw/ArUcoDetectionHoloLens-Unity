@@ -1,6 +1,3 @@
-[submodule "HoloLensForCV"]
-	path = HoloLensForCV
-	url = https://github.com/doughtmw/HoloLensForCV/tree/aruco_unity
 [submodule "HoloLensCamCalib"]
 	path = HoloLensCamCalib
 	url = https://github.com/doughtmw/HoloLensCamCalib.git

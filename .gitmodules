@@ -1,9 +1,6 @@
 [submodule "HoloLensForCV"]
 	path = HoloLensForCV
-	url = git@github.com:doughtmw/HoloLensForCV.git
-[submodule "NuGet-Package-Creation"]
-	path = NuGet-Package-Creation
-	url = git@github.com:doughtmw/NuGet-Package-Creation.git
+	url = https://github.com/doughtmw/HoloLensForCV/tree/aruco_unity
 [submodule "HoloLensCamCalib"]
 	path = HoloLensCamCalib
 	url = https://github.com/doughtmw/HoloLensCamCalib.git

@@ -1,3 +1,6 @@
 [submodule "HoloLensCamCalib"]
 	path = HoloLensCamCalib
 	url = https://github.com/doughtmw/HoloLensCamCalib.git
+[submodule "HoloLensForCV"]
+	path = HoloLensForCV
+	url = https://github.com/doughtmw/HoloLensForCV.git

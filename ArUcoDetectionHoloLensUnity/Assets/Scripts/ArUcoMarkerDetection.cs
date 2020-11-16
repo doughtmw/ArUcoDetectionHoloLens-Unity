@@ -18,6 +18,7 @@ using UnityEngine.UI;
 using UnityEngine.XR.WSA;
 using UnityEngine.XR.WSA.Input;
 using System.Threading;
+using Microsoft.MixedReality.Toolkit.Experimental.Utilities;
 
 
 // App permissions, modify the appx file for research mode streams
@@ -32,6 +33,8 @@ namespace ArUcoDetectionHoloLensUnity
     // https://docs.unity3d.com/2018.4/Documentation/Manual/IL2CPP-WindowsRuntimeSupport.html
     public class ArUcoMarkerDetection : MonoBehaviour
     {
+        private bool _isWorldAnchored = false;
+
         public Text myText;
 
         public CvUtils.DeviceTypeUnity deviceType;
@@ -50,26 +53,13 @@ namespace ArUcoDetectionHoloLensUnity
         public GameObject markerGo;
 
         /// <summary>
-        /// GameObject to show video streams.
-        /// </summary>
-        public GameObject pvGo;
-
-        /// <summary>
-        /// Cached materials for applying to game objects.
-        /// </summary>
-        //private Material _pvMaterial;
-
-        /// </summary>
-        /// Textures created from input byte arrays.
-        /// </summary>
-        // PV
-        //private Texture2D _pvTexture;
-
-        /// <summary>
         /// List of prefab instances of detected aruco markers.
         /// </summary>
-        private List<GameObject> _markerGOs;
+        //private List<GameObject> _markerGOs;
+
         private bool _mediaFrameSourceGroupsStarted = false;
+        private int _frameCount = 0;
+        public int skipFrames = 3;
 
 #if ENABLE_WINMD_SUPPORT
         // Enable winmd support to include winmd files. Will not
@@ -108,9 +98,6 @@ namespace ArUcoDetectionHoloLensUnity
             // Initialize gesture handler
             InitializeHandler();
 
-            // Get the material components from quad game objects.
-            //_pvMaterial = pvGo.GetComponent<MeshRenderer>().material;
-
             // Start the media frame source groups.
             await StartHoloLensMediaFrameSourceGroups();
 
@@ -118,8 +105,7 @@ namespace ArUcoDetectionHoloLensUnity
             // HoloLens media frame source groups.
             StartCoroutine(DelayCoroutine());
 
-            // Initialize list of marker game objects
-            _markerGOs = new List<GameObject>();
+            markerGo.transform.localScale = new Vector3(markerSize, markerSize, markerSize);
         }
 
         /// <summary>
@@ -139,9 +125,22 @@ namespace ArUcoDetectionHoloLensUnity
         }
 
         // Update is called once per frame
-        void Update()
+        async void Update()
         {
-            UpdateHoloLensMediaFrameSourceGroup();
+#if ENABLE_WINMD_SUPPORT
+            _frameCount += 1;
+
+            // Predict every 3rd frame
+            if (_frameCount == skipFrames)
+            {
+                var detections = await Task.Run(() => _pvMediaFrameSourceGroup.DetectArUcoMarkers(_sensorType));
+
+                // Update the game object pose with current detections
+                UpdateArUcoDetections(detections);
+
+                _frameCount = 0;
+            }
+#endif
         }
 
         async void OnApplicationQuit()
@@ -214,56 +213,43 @@ namespace ArUcoDetectionHoloLensUnity
                 markerSize, 
                 (int)arUcoDictionaryName, 
                 _unityCoordinateSystem);
-
-            //_arUcoMarkerTracker = new ArUcoMarkerTracker(
-            //    markerSize,
-            //    (int)arUcoDictionaryName,
-            //    _unityCoordinateSystem);
 #endif
         }
 
         // Get the latest frame from hololens media
         // frame source group -- not needed
-        unsafe void UpdateHoloLensMediaFrameSourceGroup()
-        {
 #if ENABLE_WINMD_SUPPORT           
+        void UpdateArUcoDetections(IList<DetectedArUcoMarker> detections)
+        {
             if (!_mediaFrameSourceGroupsStarted ||
                 _pvMediaFrameSourceGroup == null)
             {
                 return;
             }
 
-            // Destroy all marker gameobject instances from prior frames
-            // otherwise game objects will pile on top of marker
-            if (_markerGOs.Count != 0)
-            {
-                foreach (var marker in _markerGOs)
-                {
-                    Destroy(marker);
-                }
-            }
-
-            // Get latest sensor frames
-            // Photo video
-            //SensorFrame latestPvCameraFrame =
-            //    _pvMediaFrameSourceGroup.GetLatestSensorFrame(
-            //    _sensorType);
-
-            //if (latestPvCameraFrame == null)
-            //    return;
-
             // Detect ArUco markers in current frame
             // https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#void%20Rodrigues(InputArray%20src,%20OutputArray%20dst,%20OutputArray%20jacobian)
-            IList<DetectedArUcoMarker> detectedArUcoMarkers =
-                _pvMediaFrameSourceGroup.DetectArUcoMarkers(_sensorType);
-
-            //detectedArUcoMarkers = 
-            //    _arUcoMarkerTracker.DetectArUcoMarkersInFrame(latestPvCameraFrame);
+            //IList<DetectedArUcoMarker> detectedArUcoMarkers = _pvMediaFrameSourceGroup.GetArUcoDetections();
+            //_pvMediaFrameSourceGroup.DetectArUcoMarkers(_sensorType);
 
             // If we detect a marker, display
-            if (detectedArUcoMarkers.Count != 0)
+            if (detections.Count != 0)
             {
-                foreach (var detectedMarker in detectedArUcoMarkers)
+                // Remove world anchor from game object
+                if (_isWorldAnchored)
+                {
+                    try
+                    {
+                        DestroyImmediate(markerGo.GetComponent<WorldAnchor>());
+                        _isWorldAnchored = false;
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+
+                foreach (var detectedMarker in detections)
                 {
                     // Get pose from OpenCV and format for Unity
                     Vector3 position = CvUtils.Vec3FromFloat3(detectedMarker.Position);
@@ -275,45 +261,22 @@ namespace ArUcoDetectionHoloLensUnity
                     // Use camera to world transform to get world pose of marker
                     Matrix4x4 transformUnityWorld = cameraToWorldUnity * transformUnityCamera;
 
-                    // Instantiate game object marker in world coordinates
-                    var thisGo = Instantiate(
-                        markerGo,
+                    // Apply updated transform to gameobject in world
+                    markerGo.transform.SetPositionAndRotation(
                         CvUtils.GetVectorFromMatrix(transformUnityWorld),
-                        CvUtils.GetQuatFromMatrix(transformUnityWorld)) as GameObject;
-
-                    // Scale the game object to the size of the markers
-                    thisGo.transform.localScale = new Vector3(markerSize, markerSize, markerSize);
-                    _markerGOs.Add(thisGo);
+                        CvUtils.GetQuatFromMatrix(transformUnityWorld));
                 }
             }
-            
-            // Remove viewing of frame for now. Getting memory leaks
-            // from passing the SensorFrame class object across the 
-            // WinRT ABI... 
-
-            // Convert the frame to be unity viewable
-            //var pvFrame = SoftwareBitmap.Convert(
-            //    latestPvCameraFrame.SoftwareBitmap,
-            //    BitmapPixelFormat.Bgra8,
-            //    BitmapAlphaMode.Ignore);
-
-            //// Display the incoming pv frames as a texture.
-            //// Set texture to the desired renderer
-            //Destroy(_pvTexture);
-            //_pvTexture = new Texture2D(
-            //    pvFrame.PixelWidth,
-            //    pvFrame.PixelHeight,
-            //    TextureFormat.BGRA32, false);
-
-            //// Get byte array, update unity material with texture (RGBA)
-            //byte* inBytesPV = GetByteArrayFromSoftwareBitmap(pvFrame);
-            //_pvTexture.LoadRawTextureData((IntPtr)inBytesPV, pvFrame.PixelWidth * pvFrame.PixelHeight * 4);
-            //_pvTexture.Apply();
-            //_pvMaterial.mainTexture = _pvTexture;
-
+            // If no markers in scene, anchor marker go to last position
+            else
+            {
+                // Add a world anchor to the attached gameobject
+                markerGo.AddComponent<WorldAnchor>();
+                _isWorldAnchored = true;
+            }
             myText.text = "Began streaming sensor frames. Double tap to end streaming.";
-#endif
         }
+#endif
 
         /// <summary>
         /// Stop the media frame source groups.

@@ -173,6 +173,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -185,6 +205,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
         type: 3}
@@ -203,16 +228,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -225,21 +240,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 948697719170404064, guid: 2e5d73686abb4b440940c1d00e105576,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6938460688606143788, guid: 2e5d73686abb4b440940c1d00e105576,
         type: 3}
@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: 805832263}
   - component: {fileID: 805832264}
   - component: {fileID: 805832265}
+  - component: {fileID: 805832266}
   m_Layer: 0
   m_Name: Script Holder
   m_TagString: Untagged
@@ -331,13 +332,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f617a04cdb56548b9f978ee42eca20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldAnchorManager: {fileID: 805832265}
   myText: {fileID: 705192944}
   deviceType: 1
   sensorTypePv: 0
   arUcoDictionaryName: 8
   markerSize: 0.1
+  calibParams: {fileID: 805832266}
   markerGo: {fileID: 519181811}
+  skipFrames: 3
 --- !u!114 &805832265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +355,24 @@ MonoBehaviour:
   anchorDebugText: {fileID: 0}
   showDetailedLogs: 0
   persistentAnchors: 0
+--- !u!114 &805832266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805832262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342bf856f2c324245b83b6230d12ecd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  focalLength: {x: 677.8969, y: 677.1776}
+  principalPoint: {x: 439.2389, y: 231.5085}
+  radialDistortion: {x: -0.002602964, y: -0.008751171, z: 0}
+  tangentialDistortion: {x: -0.002239826, y: -0.00005941804}
+  imageWidth: 896
+  imageHeight: 504
 --- !u!1 &834886952
 GameObject:
   m_ObjectHideFlags: 0

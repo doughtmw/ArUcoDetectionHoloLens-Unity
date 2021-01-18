@@ -48,6 +48,12 @@ namespace ArUcoDetectionHoloLensUnity
         public float markerSize;
 
         /// <summary>
+        /// Holder for the camera parameters (intrinsics and extrinsics)
+        /// of the tracking sensor on the HoloLens 2
+        /// </summary>
+        public CameraCalibrationParams calibParams;
+
+        /// <summary>
         /// Game object for to use for marker instantiation
         /// </summary>
         public GameObject markerGo;
@@ -182,7 +188,14 @@ namespace ArUcoDetectionHoloLensUnity
                 _mediaFrameSourceGroup,
                 _spatialPerception,
                 _deviceType,
-                _sensorFrameStreamerPv);
+                _sensorFrameStreamerPv,
+
+                // Calibration parameters from opencv, compute once for each hololens 2 device
+                calibParams.focalLength.x, calibParams.focalLength.y,
+                calibParams.principalPoint.x, calibParams.principalPoint.y,
+                calibParams.radialDistortion.x, calibParams.radialDistortion.y, calibParams.radialDistortion.z,
+                calibParams.tangentialDistortion.x, calibParams.tangentialDistortion.y,
+                calibParams.imageHeight, calibParams.imageWidth);
             _pvMediaFrameSourceGroup.Enable(_sensorType);
 
             // Start media frame source groups

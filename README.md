@@ -1,4 +1,6 @@
 # ArUcoDetectionHoloLens-Unity
+**Edit 1/30/2022**: If you are interested in testing out our improved repo for tracking and display calibration on the HoloLens 2, please check out our [display-calibration-hololens](https://github.com/doughtmw/display-calibration-hololens) repository.
+
 ArUco marker tracking made available for use in Unity through [IL2CPP Windows Runtime support](https://docs.unity3d.com/2018.4/Documentation/Manual/IL2CPP-WindowsRuntimeSupport.html) for the HoloLens 1 (x86) and HoloLens 2 (ARM). 
 
 Incorporates:
@@ -34,7 +36,7 @@ Install-Package ..\OpenCV.HoloLens.3411.0.0.nupkg -ProjectName HoloLensForCV
 ## Camera calibration for the HoloLens 2 
 - To improve the accuracy of marker-based registration, it is recommended that a standard camera calibration procedure is performed (estimating the intrinsic and extrinsic parameters of the camera)
   - This estimation procedure only has to be performed once per camera and requires the user to capture multiple images of a standard planar calibration chessboard from different orientations
-- Details of how to record images from your HoloLens 2 camera (at the desired resolution for marker-based tracking) and compute the calibration parameters are included in the [following README file](HoloLensCamCalib/README.MD)
+- Details of how to record images from your HoloLens 2 camera (at the desired resolution for marker-based tracking) and compute the calibration parameters are included in the [following README file](https://github.com/doughtmw/HoloLensCamCalib)
 - After computing the camera parameters, we can open the resulting `data.json` file and extract relevant measures to include in the Unity project for online tracking 
 - Below is a sample `json` file from one of my calibration results
 
